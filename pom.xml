@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.cyou</groupId>
-    <artifactId>renew_front</artifactId>
+    <artifactId>springboot-refactor</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>renew_front</name>
+    <name>springboot-refactor</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
