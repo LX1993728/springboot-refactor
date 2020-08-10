@@ -12,6 +12,6 @@
 
     <tag>
         <name>today</name>
-        <tag-class>com.cyou.tv.zebra.tags.MyTagHandler</tag-class>
+        <tag-class>com.refactor.spring.boot.tags.MyTagHandler</tag-class>
     </tag>
 </taglib>

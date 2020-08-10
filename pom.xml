@@ -79,6 +79,10 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.4.2.RELEASE</version>
+                <configuration>
+                     <!-- 避免在一些idea环境下出现找不到主类的运行异常 -->
+                    <mainClass>com.refactor.spring.boot.SpringBootRefactorApplication</mainClass>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
