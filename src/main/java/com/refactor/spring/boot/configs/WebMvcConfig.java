@@ -33,18 +33,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     }
 
     /**
-     * @apiNote 配置拦截器并对swagger的路径进行方向
-     * @param registry
-     */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(localInterceptor())
-//                .registry.addPathPatterns("/**")
-//                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
-
-    }
-
-    /**
      * @apiNote 添加静态资源
      * @param registry
      */
