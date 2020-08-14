@@ -1,5 +1,8 @@
 package com.refactor.spring.boot.controllers;
 
+import com.refactor.spring.boot.refactorInterceptor.Interceptor;
+import com.refactor.spring.boot.refactorInterceptor.InterceptorNames;
+import com.refactor.spring.boot.refactorInterceptor.InterceptorStack;
 import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
+@RequestMapping(path = "/")
 public class TestController {
     // 测试访问jsp
     @RequestMapping(value="/test", method = RequestMethod.GET)
@@ -33,6 +37,7 @@ public class TestController {
     }
 
     @RequestMapping(value = "/test2",method = RequestMethod.GET)
+    @Interceptor(stack = InterceptorStack.STACK_ONE, interceptors = {InterceptorNames.INTERCEPTOR_C})
     @ResponseBody
     public Object test2(){
         Map<String,Object>  resultMap = new HashMap<>();

@@ -30,4 +30,6 @@ public class InterceptConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").excludePathPatterns(excludePathPatterns);
 
     }
+
+
 }

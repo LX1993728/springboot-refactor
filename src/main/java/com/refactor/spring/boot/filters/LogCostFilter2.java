@@ -9,7 +9,7 @@ import java.io.IOException;
 public class LogCostFilter2 implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-
+        log.info("------ logFilter-2 init -------");
     }
 
     @Override
