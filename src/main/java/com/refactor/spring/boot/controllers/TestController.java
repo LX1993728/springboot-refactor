@@ -7,10 +7,7 @@ import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,13 +33,23 @@ public class TestController {
         return "/app/testTag";
     }
 
-    @RequestMapping(value = "/test2",method = RequestMethod.GET)
+    @GetMapping(value = "/test2")
     @Interceptor(stack = InterceptorStack.STACK_ONE, interceptors = {InterceptorNames.INTERCEPTOR_C})
     @ResponseBody
     public Object test2(){
         Map<String,Object>  resultMap = new HashMap<>();
         resultMap.put("name", "张三");
         resultMap.put("age", 20);
+        return resultMap;
+    }
+
+    @GetMapping(value = "/test3/a_{aid}/{bid}_b")
+    @Interceptor(stack = InterceptorStack.STACK_TWO)
+    @ResponseBody
+    public Object test3(@PathVariable("aid")String aid,@PathVariable("bid")String bid ){
+        Map<String,Object>  resultMap = new HashMap<>();
+        resultMap.put("aid", aid);
+        resultMap.put("bid", bid);
         return resultMap;
     }
 

@@ -2,10 +2,7 @@ package com.refactor.spring.boot.refactorInterceptor;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author liuxun
@@ -22,8 +19,9 @@ public class InterURLMappings {
      *
      * @param urlMapping  url 路径映射
      * @param stackName  拦截器栈 标识
+     * @param additionInters 额外的拦截器
      */
-    public static void setURLToInterStack(String urlMapping, String stackName){
+    private static void setURLToInterStack(String urlMapping, String stackName, String ... additionInters){
         if (urlMapping == null || stackName == null){
             return;
         }
@@ -37,6 +35,9 @@ public class InterURLMappings {
         }
         // 获取拦截器栈对应包含的的所有拦截器标识
         Set<String> interceptorNames = stackMap.get(stackName);
+        if (additionInters != null && additionInters.length > 0){
+            interceptorNames.addAll(Arrays.asList(additionInters));
+        }
         interceptorNames.forEach(interName ->{
             if (urlMappingsMap.containsKey(interName) && urlMappingsMap.get(interName) != null){
                 urlMappingsMap.get(interName).add(urlMapping);
@@ -48,6 +49,9 @@ public class InterURLMappings {
         });
     }
 
+    public static void setURLToInterceptor(String urlMapping, Interceptor interceptor){
+        setURLToInterStack(urlMapping, interceptor.stack(), interceptor.interceptors());
+    }
 
     public static Map<String, Set<String>> getUrlMappingsMap() {
         return urlMappingsMap;
