@@ -1,19 +1,27 @@
 package com.refactor.spring.boot.refactorInterceptor;
 
+import com.refactor.spring.boot.configs.InterceptConfig;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -23,11 +31,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class MyApplicationRunner implements ApplicationRunner {
+public class MyApplicationRunner implements ApplicationRunner, ApplicationContextAware {
 
     @Autowired
     private RequestMappingHandlerMapping requestMappingHandler;
 
+    private ApplicationContext applicationContext;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -42,7 +51,15 @@ public class MyApplicationRunner implements ApplicationRunner {
      * @apiNote 将扫描出URL拦截配置适配到拦截器中
      */
     private void setURLMappingsToInterceptors(){
-
+        Map<String, Set<String>> mappingsMap = InterURLMappings.getUrlMappingsMap();
+        for (String interceptorId : mappingsMap.keySet()){
+            InterceptorRegistration registration = InterceptConfig.getInterRegistrationMap().get(interceptorId);
+            if (registration == null){
+                log.error("not found interceptor {}",interceptorId);
+            }
+            ArrayList<String> list = new ArrayList<>(mappingsMap.get(interceptorId));
+            registration.addPathPatterns(list);
+        }
     }
 
     private void getAllInterceptorURIMappingsToMap(){
@@ -65,5 +82,10 @@ public class MyApplicationRunner implements ApplicationRunner {
             }
         }
         log.info("--- mapInfo={}------", InterURLMappings.getUrlMappingsMap());
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }
