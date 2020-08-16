@@ -1,9 +1,5 @@
 package com.refactor.spring.boot.controllers;
 
-import com.refactor.spring.boot.refactorInterceptor.Interceptor;
-import com.refactor.spring.boot.refactorInterceptor.InterceptorNames;
-import com.refactor.spring.boot.refactorInterceptor.InterceptorStack;
-import org.apache.tomcat.util.buf.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,7 +30,6 @@ public class TestController {
     }
 
     @GetMapping(value = "/test2")
-    @Interceptor(stack = InterceptorStack.STACK_ONE, interceptors = {InterceptorNames.INTERCEPTOR_C})
     @ResponseBody
     public Object test2(){
         Map<String,Object>  resultMap = new HashMap<>();
@@ -44,7 +39,6 @@ public class TestController {
     }
 
     @GetMapping(value = "/test3/a_{aid}/{bid}_b")
-    @Interceptor(stack = InterceptorStack.STACK_TWO)
     @ResponseBody
     public Object test3(@PathVariable("aid")String aid,@PathVariable("bid")String bid ){
         Map<String,Object>  resultMap = new HashMap<>();

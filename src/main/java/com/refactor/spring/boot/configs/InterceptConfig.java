@@ -1,6 +1,12 @@
 package com.refactor.spring.boot.configs;
 
+import com.refactor.spring.boot.interceptors.InterA;
+import com.refactor.spring.boot.interceptors.InterB;
+import com.refactor.spring.boot.interceptors.InterC;
 import com.refactor.spring.boot.interceptors.LogInterceptor;
+import com.refactor.spring.boot.refactorInterceptor.InterProperty;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -10,11 +16,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @apiNote 在这里只负责配置拦截器
  */
 @Configuration
+@EnableConfigurationProperties({InterProperty.class})
 public class InterceptConfig implements WebMvcConfigurer {
 
     private static final String[] excludePathPatterns = new String[]{
             "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**"
     };
+
+    @Autowired
+    private InterProperty interProperty;
 
     /**
      * @apiNote 配置拦截器并对swagger的路径进行方向
@@ -29,6 +39,9 @@ public class InterceptConfig implements WebMvcConfigurer {
         */
         registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").excludePathPatterns(excludePathPatterns);
 
+        registry.addInterceptor(new InterA()).addPathPatterns(interProperty.getPatternsByInterName("inter-A")).excludePathPatterns(excludePathPatterns);
+        registry.addInterceptor(new InterB()).addPathPatterns(interProperty.getPatternsByInterName("inter-B")).excludePathPatterns(excludePathPatterns);
+        registry.addInterceptor(new InterC()).addPathPatterns(interProperty.getPatternsByInterName("inter-C")).excludePathPatterns(excludePathPatterns);
     }
 
 
