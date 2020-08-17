@@ -22,3 +22,8 @@
  添加拦截器栈时需要配置两处，一个需要在配置文件中配置每个拦截器栈的名称以及它所包含的拦截器标识和对应的路径映射信息,第二处是需要在
  InterceptorConfig.java类中按照struts.xml的配置顺序依次添加对应的拦截器并根据对应的标识添加路径映射。<br/>
  对于新的重构项目front而言，我会配置改造好拦截器以及对应的拦截器栈信息，新入的重构人员只需在对应的拦截器栈中添加对应action方法的路径映射即可.
+ 
+ ## 拦截器配置请求转发
+ 有两种实现请求拦截器的方法，一种是实现HandlerInterceptor接口，另外一种是继承HandlerInterceptorAdapter类<br/>
+ 建议使用第一种实现HandlerInterceptor接口而不要继承HandlerInterceptorAdapter类，如果继承HandlerInterceptorAdapter类在拦截器
+ 内实现请求转发 ``request.getRequestDispatcher("/xx").forward(request,response);`` 转发到控制器方法时会出现死循环且不停的报异常。

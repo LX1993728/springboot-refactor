@@ -35,6 +35,7 @@ public class InterceptConfig implements WebMvcConfigurer {
          3.所有的preHandle 执行完再执行全部postHandle 最后是postHandle
         */
         registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").excludePathPatterns(excludePathPatterns);
+        registry.addInterceptor(new InterForward()).addPathPatterns("/test").excludePathPatterns(excludePathPatterns);
 
         // 注意: 默认情况下拦截器配置的顺序即是拦截器的拦截顺序
         registry.addInterceptor(new InterA()).addPathPatterns(interProperty.getPatternsByInterName("inter-A")).excludePathPatterns(excludePathPatterns);
