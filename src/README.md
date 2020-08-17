@@ -2,6 +2,7 @@
  - WebMvcConfigurer 接口
  - WebMvcConfigurerAdapter 类
  - WebMvcConfigurationSupport 类
+ - 拦截器栈的配置
 
 ## 说明：
  后面两个类都实现了WebMvcConfigurer接口。<br/>
@@ -15,3 +16,9 @@
  一个空的WebMvcConfigurationSupport配置子类为了兼容旧的SpringAOP规范; <br/>
  @EnableWebMvc 接管自动配置,弥补由于配置WebMvcConfigurationSupport导致的拦截器失效; <br/>
  WebMvcConfigurer用于真正配置EE方面的内容; <br>
+ 
+ ## 关于拦截器栈的配置
+ 因struts拦截器栈的配置和SpringMVC拦截器的配置方向正好是相反的而且拦截器是不存在多个栈的概念的; 为了重构方便,在这里添加了自定义的配置文件Interceptor.properties
+ 添加拦截器栈时需要配置两处，一个需要在配置文件中配置每个拦截器栈的名称以及它所包含的拦截器标识和对应的路径映射信息,第二处是需要在
+ InterceptorConfig.java类中按照struts.xml的配置顺序依次添加对应的拦截器并根据对应的标识添加路径映射。<br/>
+ 对于新的重构项目front而言，我会配置改造好拦截器以及对应的拦截器栈信息，新入的重构人员只需在对应的拦截器栈中添加对应action方法的路径映射即可.
