@@ -1,6 +1,8 @@
 package com.refactor.spring.boot.controllers;
 
+import com.alibaba.fastjson.JSON;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -107,6 +109,25 @@ public class TestController {
         return resultMap;
     }
 
+    // 测试返回xml类型数据
+    @GetMapping(value = "/xml", produces = MediaType.APPLICATION_XML_VALUE)
+    @ResponseBody
+    public Object getXmlData(){
+        Map<String,Object>  resultMap = new HashMap<>();
+        resultMap.put("name", "张三");
+        resultMap.put("age", 20);
+        return  resultMap;
+    }
 
+    // 测试兼容旧的struts接口， 直接返回字符串
+    @GetMapping(value = "/str", produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @ResponseBody
+    public String getStrData(){
+        Map<String,Object>  resultMap = new HashMap<>();
+        resultMap.put("name", "张三");
+        resultMap.put("age", 20);
 
+        String resultJsonStr = JSON.toJSONString(resultMap);
+        return resultJsonStr;
+    }
 }

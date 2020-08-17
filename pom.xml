@@ -59,6 +59,20 @@
             <scope>provided</scope>
         </dependency>
 
+        <!--  xml data  support -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+
+        <!--   fast json util     -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.73</version>
+        </dependency>
+
+
         <!--   test support     -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
