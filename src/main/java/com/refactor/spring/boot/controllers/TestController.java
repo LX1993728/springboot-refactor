@@ -31,7 +31,7 @@ public class TestController {
         return "/app/testTag";
     }
 
-    @GetMapping(value = "/test2")
+    @GetMapping(value = "/test2", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Object test2(){
         Map<String,Object>  resultMap = new HashMap<>();
