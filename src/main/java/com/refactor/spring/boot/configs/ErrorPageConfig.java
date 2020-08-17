@@ -27,8 +27,8 @@ public class ErrorPageConfig implements WebMvcConfigurer, ErrorPageRegistrar {
         registry.addViewController("/400").setViewName("/WEB-INF/400");
         registry.addViewController("/401").setViewName("/WEB-INF/401");
         registry.addViewController("/500").setViewName("/WEB-INF/500");
-        // 配置请求转发
-        registry.addViewController("/test2_r").setViewName("/test2");
+        // 配置请求转发 , 配置请求转发时需要在路径前添加"forward:"前缀
+         registry.addViewController("/test2_r").setViewName("forward:/test2");
     }
 
     @Override
