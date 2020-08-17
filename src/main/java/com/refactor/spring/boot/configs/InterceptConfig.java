@@ -39,6 +39,7 @@ public class InterceptConfig implements WebMvcConfigurer {
         */
         registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").excludePathPatterns(excludePathPatterns);
 
+        // 注意: 默认情况下拦截器配置的顺序即是拦截器的拦截顺序
         registry.addInterceptor(new InterA()).addPathPatterns(interProperty.getPatternsByInterName("inter-A")).excludePathPatterns(excludePathPatterns);
         registry.addInterceptor(new InterB()).addPathPatterns(interProperty.getPatternsByInterName("inter-B")).excludePathPatterns(excludePathPatterns);
         registry.addInterceptor(new InterC()).addPathPatterns(interProperty.getPatternsByInterName("inter-C")).excludePathPatterns(excludePathPatterns);
