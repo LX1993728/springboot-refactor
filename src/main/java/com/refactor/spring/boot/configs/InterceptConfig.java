@@ -1,9 +1,6 @@
 package com.refactor.spring.boot.configs;
 
-import com.refactor.spring.boot.interceptors.InterA;
-import com.refactor.spring.boot.interceptors.InterB;
-import com.refactor.spring.boot.interceptors.InterC;
-import com.refactor.spring.boot.interceptors.LogInterceptor;
+import com.refactor.spring.boot.interceptors.*;
 import com.refactor.spring.boot.refactorInterceptor.InterProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -43,7 +40,9 @@ public class InterceptConfig implements WebMvcConfigurer {
         registry.addInterceptor(new InterA()).addPathPatterns(interProperty.getPatternsByInterName("inter-A")).excludePathPatterns(excludePathPatterns);
         registry.addInterceptor(new InterB()).addPathPatterns(interProperty.getPatternsByInterName("inter-B")).excludePathPatterns(excludePathPatterns);
         registry.addInterceptor(new InterC()).addPathPatterns(interProperty.getPatternsByInterName("inter-C")).excludePathPatterns(excludePathPatterns);
+        registry.addInterceptor(new InterD()).addPathPatterns(interProperty.getPatternsByInterName("inter-D")).excludePathPatterns(excludePathPatterns);
     }
+
 
 
 }

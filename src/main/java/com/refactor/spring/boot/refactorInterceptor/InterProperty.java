@@ -25,6 +25,13 @@ public class InterProperty {
     public List<String> getPatternsByInterName(String name){
         Set<String> patterns = new HashSet<>();
         list.stream().filter(s->s.getInters().contains(name)).map(InterceptStack::getPattens).forEach(patterns::addAll);
+        /**
+         * 注意事项: 如果addPathPatterns为空数组的话在springboot中默认会匹配所有的请求即/**
+         * 所以如果没有在interceptor.properties中没有配置对应拦截器的话，需要给予默认值为空字符串
+         */
+        if (patterns.isEmpty()){
+            patterns.add("");
+        }
         return new ArrayList<>(patterns);
     }
 
