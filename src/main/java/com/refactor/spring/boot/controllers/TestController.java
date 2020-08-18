@@ -1,6 +1,7 @@
 package com.refactor.spring.boot.controllers;
 
 import com.alibaba.fastjson.JSON;
+import com.refactor.spring.boot.tools.ServletTool;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -78,6 +79,17 @@ public class TestController {
         resultMap.put("name", name);
         resultMap.put("age", age);
         return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "/page",method = RequestMethod.GET)
+    public Object testIllegal2(@RequestParam("name")String name,
+                              @RequestParam("age")Integer age){
+        if (name == null || name.isEmpty()){
+            throw new IllegalArgumentException("名称不能为空！！！");
+        }
+        ServletTool.getRequest().setAttribute("name", name);
+        ServletTool.getRequest().setAttribute("age", age);
+        return "/WEB-INF/jsp/view/pageInfo";
     }
 
 

@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * @apiNote 全局异常处理 针对Rest请求
+ * Warn：这种方式会拦截全局异常 不管是页面异常还是xml或json异常请求异常都会 返回json数据，不是我们想要的
  */
 
-//@ControllerAdvice// 作为一个控制层的切面处理
+/*
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -40,3 +41,4 @@ public class GlobalExceptionHandler {
         return info ;
     }
 }
+*/
