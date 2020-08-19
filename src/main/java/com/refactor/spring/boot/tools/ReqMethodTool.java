@@ -1,29 +1,27 @@
 package com.refactor.spring.boot.tools;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.condition.PatternsRequestCondition;
-import org.springframework.web.servlet.mvc.condition.ProducesRequestCondition;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class RequestMethodTool implements ApplicationRunner {
+public class ReqMethodTool implements ApplicationRunner {
     /**
      * key: 请求路径映射 value:对应的控制器方法
      */
@@ -59,7 +57,7 @@ public class RequestMethodTool implements ApplicationRunner {
             urlInfos.put(patternUrl, info);
         }
 
-        log.info("---{}--{}--",urlInfos.size(), urlMethods.size());
+        // log.info("---{}--{}--",urlInfos.size(), urlMethods.size());
     }
 
 
@@ -95,5 +93,41 @@ public class RequestMethodTool implements ApplicationRunner {
             return urlInfos.get(matchKeys.get(0));
         }
         return null;
+    }
+
+    /**
+     * 判断是否是数据请求 还是访问页面请求
+     * @param httpRequest 判断指定的请求是否是ajax请求
+     * @return
+     */
+    public static boolean isAjax(HttpServletRequest httpRequest) {
+        HandlerMethod handlerMethod = getHandleMethodByURI(httpRequest.getRequestURI());
+        RequestMappingInfo info = getMappingInfoByURI(httpRequest.getRequestURI());
+        if (handlerMethod == null || info == null){
+            return true;
+        }
+        final Method method = handlerMethod.getMethod();
+        // 获取请求方法所在的控制器类
+        final Class<?> cClazz = method.getDeclaringClass();
+        // 如果控制器上带有@RestController注解，一定是ajax请求
+        if (cClazz.isAnnotationPresent(RestController.class)){
+            return true;
+        }
+
+        // 如果请求方法上具有@ResponseBody注解，一定是ajax请求
+        if (method.isAnnotationPresent(ResponseBody.class)){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断当前请求是否是ajax请求
+     * @return
+     */
+    public static boolean isAjax() {
+        final HttpServletRequest request = ServletTool.getRequest();
+
+        return isAjax(request);
     }
 }

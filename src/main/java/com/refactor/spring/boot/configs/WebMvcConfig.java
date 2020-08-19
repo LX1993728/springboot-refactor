@@ -2,6 +2,7 @@ package com.refactor.spring.boot.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.*;
 
 /**
@@ -46,4 +47,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     }
 
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        configurer.defaultContentType(MediaType.APPLICATION_JSON); // 全局的默认返回类型
+    }
 }

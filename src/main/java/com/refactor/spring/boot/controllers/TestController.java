@@ -131,6 +131,15 @@ public class TestController {
         return  resultMap;
     }
 
+    @GetMapping(value = "/xml2")
+    @ResponseBody
+    public Object getXmlData2(){
+        Map<String,Object>  resultMap = new HashMap<>();
+        resultMap.put("name", "张三");
+        resultMap.put("age", 20);
+        return  resultMap;
+    }
+
     // 测试兼容旧的struts接口， 直接返回字符串
     @GetMapping(value = "/str", produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
     @ResponseBody
