@@ -35,5 +35,9 @@ public class LogInterceptor implements HandlerInterceptor {
         log.info("endTime Time: {}", endTime);
 
         log.info("Time Taken: {}", endTime-startTime);
+        // 注意: 此接口方法控制器执行完毕 渲染视图之前 调用的，是不能捕获到控制器方法的执行异常的，代码如下
+        if (ex != null){
+            log.error("--- controller error message: {} ---",ex.getMessage());
+        }
     }
 }
