@@ -16,7 +16,8 @@ public class InterForward implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("--- inter forward pre---");
          //request.getRequestDispatcher("/app").forward(request,response);
-         ServletTool.forward("/app");
+         // ServletTool.forward("/app"); 最前面不管带不带有反斜杠 "/" 前缀都不影响跳转
+         ServletTool.forward("app");
         return false;
     }
 }
