@@ -41,4 +41,8 @@
        // do other somethings
     }
  ```
-因此使用Filter过滤器栈机制替换struts2拦截器栈机制. 注意事项: Filter仅支持以/开头以*结尾的路径，并不支持PathMatcher比如/a_*/*等
+因此使用Filter过滤器栈机制替换struts2拦截器栈机制. 
+
+## Filter替换Struts2拦截器注意事项
+① Filter仅支持以/开头以*结尾的路径，并不支持PathMatcher比如/a_*/*等 <br/>
+② Filter过滤器的执行全部是在spring拦截器之前的，后续开发如果需要在旧Struts 拦截器之前执行的，就不能选用Spring的拦截器了
