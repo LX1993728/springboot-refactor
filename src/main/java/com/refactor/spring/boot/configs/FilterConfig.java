@@ -32,7 +32,7 @@ public class FilterConfig {
         registration.setFilter(new LogCostFilter());
         registration.addUrlPatterns("/*");
         registration.setName("logCostFilter-1");
-        registration.setOrder(Ordered.LOWEST_PRECEDENCE -1);
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return registration;
     }
 
@@ -42,7 +42,7 @@ public class FilterConfig {
         registration.setFilter(new LogCostFilter2());
         registration.addUrlPatterns("/*");
         registration.setName("logCostFilter-2");
-        registration.setOrder(Ordered.LOWEST_PRECEDENCE);
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE+1);
         return registration;
     }
 
