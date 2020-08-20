@@ -19,7 +19,7 @@ import java.util.Set;
 @PropertySource("classpath:filter.properties")
 @ConfigurationProperties(prefix = "filter-stack")
 public class FilterProperty {
-    private List<FilterStack> list;
+    private List<FilterStack> list = new ArrayList<>();
 
     public List<String> getPatternsByFilterName(String name){
         Set<String> patterns = new HashSet<>();
@@ -39,9 +39,9 @@ public class FilterProperty {
 @Data
 class FilterStack{
     // 路径映射
-    private List<String> pattens ;
+    private List<String> pattens = new ArrayList<>() ;
     // 包含拦截器的名称ID
-    private List<String> filters ;
+    private List<String> filters = new ArrayList<>() ;
     //拦截器栈的名称
     private String name;
 }

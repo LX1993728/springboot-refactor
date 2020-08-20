@@ -16,7 +16,7 @@ import java.util.*;
 @PropertySource("classpath:interceptor.properties")
 @ConfigurationProperties(prefix = "stack")
 public class InterProperty {
-    private List<InterceptStack> list;
+    private List<InterceptStack> list = new ArrayList<>();
 
     public List<String> getPatternsByInterName(String name){
         Set<String> patterns = new HashSet<>();
@@ -35,9 +35,9 @@ public class InterProperty {
 @Data
 class InterceptStack{
     // 路径映射
-    private List<String> pattens ;
+    private List<String> pattens = new ArrayList<>() ;
     // 包含拦截器的名称ID
-    private List<String> inters ;
+    private List<String> inters = new ArrayList<>();
     //拦截器栈的名称
     private String name;
 }
