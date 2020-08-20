@@ -17,7 +17,7 @@
  @EnableWebMvc 接管自动配置,弥补由于配置WebMvcConfigurationSupport导致的拦截器失效; <br/>
  WebMvcConfigurer用于真正配置EE方面的内容; <br>
  
- ## 关于拦截器栈的配置
+ # 关于拦截器栈的配置
  因struts拦截器栈的配置和SpringMVC拦截器的配置方向正好是相反的而且拦截器是不存在多个栈的概念的; 为了重构方便,在这里添加了自定义的配置文件Interceptor.properties
  添加拦截器栈时需要配置两处，一个需要在配置文件中配置每个拦截器栈的名称以及它所包含的拦截器标识和对应的路径映射信息,第二处是需要在
  InterceptorConfig.java类中按照struts.xml的配置顺序依次添加对应的拦截器并根据对应的标识添加路径映射。<br/>
@@ -27,3 +27,18 @@
  有两种实现请求拦截器的方法，一种是实现HandlerInterceptor接口，另外一种是继承HandlerInterceptorAdapter类<br/>
  建议使用第一种实现HandlerInterceptor接口而不要继承HandlerInterceptorAdapter类，如果继承HandlerInterceptorAdapter类在拦截器
  内实现请求转发 ``request.getRequestDispatcher("/xx").forward(request,response);`` 转发到控制器方法时会出现死循环且不停的报异常。
+ 
+ # 使用Filter替代Struts拦截器栈方案 (丢弃spring拦截器方案)
+ 因为在spring的Interceptor中无法对控制器方法的执行进行try-catch操作，从而无法兼容旧struts拦截器中拦截捕获以及finally进行处理，比如以下代码:<br/>
+```java
+   try {
+        return arg0.invoke();
+    } catch (Exception e) {
+        logger.error(e.getMessage(), e);
+        request.setAttribute("_msg", "系统错误");
+        return Action.ERROR;
+    }finally{
+       // do other somethings
+    }
+ ```
+因此使用Filter过滤器栈机制替换struts2拦截器栈机制. 注意事项: Filter仅支持以/开头以*结尾的路径，并不支持PathMatcher比如/a_*/*等

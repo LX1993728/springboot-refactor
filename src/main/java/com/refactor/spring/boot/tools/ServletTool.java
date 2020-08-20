@@ -4,8 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author liuxun
@@ -35,7 +39,7 @@ public class ServletTool {
 
 
     /**
-     * 请求转发工具
+     * 请求转发工具 注意: 此方法只能在spring的拦截器和控制器方法中使用，不能在filter中使用
      * @param uri
      */
     public static void forward(String  uri){
@@ -44,6 +48,22 @@ public class ServletTool {
             HttpServletResponse response = getResponse();
             request.getRequestDispatcher(uri).forward(request,response);
         }catch (Exception e){
+            log.error("Exception to forward {}, message:{}", uri, e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 通用的请求转发 适用于控制器方法、拦截器、过滤器
+     * @param uri
+     * @param request
+     * @param response
+     */
+    public static void  forward(String uri, ServletRequest request, ServletResponse response){
+        try {
+            // 原生Servlet API是严格匹配前缀的
+            uri = uri.startsWith("/") ? uri : "/" + uri;
+            request.getRequestDispatcher(uri).forward(request,response);
+        } catch (Exception e) {
             log.error("Exception to forward {}, message:{}", uri, e.getMessage(), e);
         }
     }
