@@ -1,8 +1,11 @@
 package com.refactor.spring.boot.configs;
 
 import com.refactor.spring.boot.filters.*;
+import com.refactor.spring.boot.filters.stack.BaseFilter;
+import com.refactor.spring.boot.filters.stack.FilterA;
+import com.refactor.spring.boot.filters.stack.FilterB;
+import com.refactor.spring.boot.filters.stack.FilterC;
 import com.refactor.spring.boot.property.FilterProperty;
-import com.refactor.spring.boot.property.InterProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -46,32 +49,34 @@ public class FilterConfig {
         return registration;
     }
 
+    /**
+     *
+     * @param name 设置filter的名称
+     * @param filter 指定的自定义filter
+     * @param weightOrder 保证顺序
+     * @return
+     */
+    private FilterRegistrationBean wrapperFilter(String name, BaseFilter filter, int weightOrder){
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        String filterName = name == null ? filter.getClass().getSimpleName() : name;
+        filter.addUrlMappings(filterProperty.getPatternsByFilterName(filterName));
+        registration.setFilter(filter);
+        registration.setName(filterName);
+        registration.addUrlPatterns("/*");
+        registration.setOrder(Ordered.HIGHEST_PRECEDENCE + weightOrder);
+        return registration;
+    }
     @Bean
     public FilterRegistrationBean filterA() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new FilterA());
-        registration.addUrlPatterns(filterProperty.getPatternsByFilterName("filter-A").toArray(new String[]{}));
-        registration.setName("filter-A");
-        registration.setOrder(Ordered.LOWEST_PRECEDENCE-4);
-        return registration;
+        return wrapperFilter("filter-A", new FilterA(), 1);
     }
     @Bean
     public FilterRegistrationBean filterB() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new FilterB());
-        registration.addUrlPatterns(filterProperty.getPatternsByFilterName("filter-B").toArray(new String[]{}));
-        registration.setName("filter-B");
-        registration.setOrder(Ordered.LOWEST_PRECEDENCE-3);
-        return registration;
+        return wrapperFilter("filter-B", new FilterB(), 2);
     }
     @Bean
     public FilterRegistrationBean filterC() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new FilterC());
-        registration.addUrlPatterns(filterProperty.getPatternsByFilterName("filter-C").toArray(new String[]{}));
-        registration.setName("filter-C");
-        registration.setOrder(Ordered.LOWEST_PRECEDENCE-2);
-        return registration;
+        return wrapperFilter("filter-C", new FilterC(), 3);
     }
 
 }

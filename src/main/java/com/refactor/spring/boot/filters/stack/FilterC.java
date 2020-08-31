@@ -1,15 +1,18 @@
-package com.refactor.spring.boot.filters;
+package com.refactor.spring.boot.filters.stack;
 
 import com.refactor.spring.boot.tools.ServletTool;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-public class FilterC implements Filter {
+public class FilterC extends BaseFilter {
+
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+    protected void filter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         log.info("FilterC start");
         String  forward = "forward";
         if (request.getParameter(forward) != null){

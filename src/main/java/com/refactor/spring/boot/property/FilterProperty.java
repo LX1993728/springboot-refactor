@@ -23,7 +23,15 @@ public class FilterProperty {
 
     public List<String> getPatternsByFilterName(String name){
         Set<String> patterns = new HashSet<>();
-        list.stream().filter(f->f.getFilters().contains(name)).map(FilterStack::getPattens).forEach(patterns::addAll);
+        list.stream().filter(f->f.getFilters().contains(name)).map(FilterStack::getPatterns).forEach(patterns::addAll);
+
+        Set<String> actionPatterns = new HashSet<>();
+        patterns.forEach(p->{
+            if (!p.endsWith(".action")){
+                actionPatterns.add(p + ".action");
+            }
+        });
+        patterns.addAll(actionPatterns);
         /**
          * 注意事项:
          * 所以如果没有在filter.properties中没有配置对应拦截器的话，需要给予默认值为空字符串
@@ -39,7 +47,7 @@ public class FilterProperty {
 @Data
 class FilterStack{
     // 路径映射
-    private List<String> pattens = new ArrayList<>() ;
+    private List<String> patterns =  new ArrayList<>();
     // 包含拦截器的名称ID
     private List<String> filters = new ArrayList<>() ;
     //拦截器栈的名称
