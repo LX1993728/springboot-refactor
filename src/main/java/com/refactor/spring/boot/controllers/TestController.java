@@ -151,4 +151,18 @@ public class TestController {
         String resultJsonStr = JSON.toJSONString(resultMap);
         return resultJsonStr;
     }
+
+    @GetMapping(value = "/jsonOrPage")
+    @ResponseBody
+    public Object getStrData(@RequestParam(required = false,defaultValue = "false")boolean isPage){
+        if (!isPage){
+            Map<String,Object>  resultMap = new HashMap<>();
+            resultMap.put("name", "张三");
+            resultMap.put("age", 20);
+            return resultMap;
+        }
+        // ServletTool.forward("/app/testApp.jsp");
+        ServletTool.forward("/app.action");
+        return null;
+    }
 }
