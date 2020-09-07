@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.http.MediaType;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 
 /**
@@ -61,5 +62,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public WebServerFactoryCustomizer<TomcatServletWebServerFactory> cookieProcessorCustomizer() {
         return (factory) -> factory.addContextCustomizers(
                 (context) -> context.setCookieProcessor(new LegacyCookieProcessor()));
+    }
+
+    // 处理异常 springboot Caused by:  Unable to process parts as no multi-part configuration has been provided
+    // https://stackoverflow.com/questions/24265573/unable-to-process-parts-as-no-multi-part-configuration-has-been-provided
+    @Bean
+    public CommonsMultipartResolver filterMultipartResolver(){
+        CommonsMultipartResolver resolver = new
+                CommonsMultipartResolver();
+        return resolver;
     }
 }
