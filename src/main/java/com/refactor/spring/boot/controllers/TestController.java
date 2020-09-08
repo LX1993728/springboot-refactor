@@ -165,4 +165,15 @@ public class TestController {
         ServletTool.forward("/app.action");
         return null;
     }
+
+    @GetMapping(value = "/redirect_test")
+    @ResponseBody
+    public Object redirectTest(@RequestParam(required = false,defaultValue = "false")boolean isSelf){
+        if (!isSelf){
+           ServletTool.redirect("/app.action", true);
+           return null;
+        }
+        ServletTool.redirect("http://www.baidu.com", false);
+        return null;
+    }
 }

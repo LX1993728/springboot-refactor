@@ -59,6 +59,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>1.4</version>
+        </dependency>
+
+
         <!--  xml data  support -->
         <!--   注意: 引入此依赖后，rest请求默认返回数据类型为xml(同时支持json和xml)。
              需手动指定请求注解的produces属性 或 客户端指定响应的内容类型

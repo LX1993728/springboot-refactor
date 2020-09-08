@@ -53,6 +53,27 @@ public class ServletTool {
     }
 
     /**
+     * 请求重定向方法 注意: 此方法只能在spring的拦截器和控制器方法中使用，不能在filter中使用
+     * @param uri
+     * @param isSelf 是否是自身的地址 还是第三方地址
+     */
+    public static void  redirect(String uri, boolean isSelf){
+        HttpServletRequest request = getRequest();
+        HttpServletResponse response = getResponse();
+        try {
+            final String contextPath = request.getContextPath();
+            if (isSelf){
+                uri = uri.startsWith("/") ? uri : "/" + uri;
+                response.sendRedirect( contextPath + uri);
+            }else {
+                response.sendRedirect(uri);
+            }
+        } catch (IOException e) {
+            log.error("Exception to redirect {}, message:{}", uri, e.getMessage(), e);
+        }
+    }
+
+    /**
      * 通用的请求转发 适用于控制器方法、拦截器、过滤器
      * @param uri
      * @param request
@@ -67,4 +88,6 @@ public class ServletTool {
             log.error("Exception to forward {}, message:{}", uri, e.getMessage(), e);
         }
     }
+
+
 }
