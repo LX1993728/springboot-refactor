@@ -176,4 +176,15 @@ public class TestController {
         ServletTool.redirect("http://www.baidu.com", false);
         return null;
     }
+
+    @GetMapping(value = "/r")
+    public Object r(){
+         /*
+         spring 原生支持的重定向方式，带不带反斜杠均可跳转 /
+          */
+        // return "redirect:/app.action";
+        return "redirect:app.action";
+    }
+
+
 }
