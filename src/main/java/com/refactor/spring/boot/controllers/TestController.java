@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -184,6 +185,24 @@ public class TestController {
           */
         // return "redirect:/app.action";
         return "redirect:app.action";
+    }
+
+    /**
+     * 测试重定向并传递参数
+     * @return
+     */
+    @GetMapping(value = "/r_p")
+    public Object r_p(RedirectAttributes attributes){
+        attributes.addAttribute("name", "王五"+ System.currentTimeMillis());
+        attributes.addAttribute("age", "29");
+        return "redirect:page.action";
+    }
+
+    @GetMapping(value = "/r_p2") // FIXME:注意此方法是存在问题的，经访问测试发现无法取到重定向后的请求参数
+    public Object r_p2(RedirectAttributes attributes){
+        attributes.addFlashAttribute("name", "王五"+ System.currentTimeMillis());
+        attributes.addFlashAttribute("age", "29");
+        return "redirect:page.action";
     }
 
 
