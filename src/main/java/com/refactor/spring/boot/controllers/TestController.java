@@ -6,10 +6,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Controller
@@ -142,15 +148,16 @@ public class TestController {
     }
 
     // 测试兼容旧的struts接口， 直接返回字符串
-    @GetMapping(value = "/str", produces = MediaType.TEXT_PLAIN_VALUE+";charset=UTF-8")
+    @GetMapping(value = "/str")
     @ResponseBody
     public String getStrData(){
         Map<String,Object>  resultMap = new HashMap<>();
         resultMap.put("name", "张三");
         resultMap.put("age", 20);
 
-        String resultJsonStr = JSON.toJSONString(resultMap);
-        return resultJsonStr;
+        // String resultJsonStr = JSON.toJSONString(resultMap);
+        writeObject(resultMap);
+        return null;
     }
 
     @GetMapping(value = "/jsonOrPage")
@@ -205,5 +212,25 @@ public class TestController {
         return "redirect:page.action";
     }
 
+    @GetMapping(value = "/test_match") // FIXME:注意此方法是存在问题的，经访问测试发现无法取到重定向后的请求参数
+    @ResponseBody
+    public Object testMatchNum(){
+        AntPathMatcher matcher = new AntPathMatcher();
+        final boolean match1 = matcher.match("/aaa/^[0-9]*$", "/aaa/12300");
+        return match1;
+    }
 
+
+    private void writeObject(Object o){
+        final HttpServletResponse response = ServletTool.getResponse();
+        response.setContentType("text/plain;charset=UTF-8");
+        response.setLocale(new Locale("zh","CN"));
+        response.setCharacterEncoding("UTF-8");
+        try {
+            PrintWriter writer = response.getWriter();
+            writer.write(JSON.toJSONString(o));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
