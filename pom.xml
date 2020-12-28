@@ -17,7 +17,7 @@
     <properties>
         <java.version>1.8</java.version>
         <swagger.version>2.8.0</swagger.version>
-        <javamelody.version>1.74.0</javamelody.version>
+        <javamelody.version>1.85.0</javamelody.version>
     </properties>
 
     <dependencies>
@@ -122,6 +122,19 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>source</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <!-- 绑定compile 编译时将依赖中的制定配置文件拷贝到当前项目的classpath中
             <plugin>
