@@ -1,7 +1,9 @@
 package com.refactor.spring.boot.controllers;
 
 import com.alibaba.fastjson.JSON;
+import com.refactor.spring.boot.tasks.service.ServiceForController;
 import com.refactor.spring.boot.tools.ServletTool;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,10 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/")
 public class TestController {
+    @Autowired
+    private ServiceForController serviceForController;
+
+
     // 测试访问jsp
     @RequestMapping(value="/test", method = RequestMethod.GET)
     public String test(){
@@ -232,5 +238,12 @@ public class TestController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @GetMapping("/test_job")
+    @ResponseBody
+    public Object testJob(@RequestParam(required = false,defaultValue = "1") Long userId){
+        serviceForController.executeJobForQueryUsername(userId);
+        return "success";
     }
 }
