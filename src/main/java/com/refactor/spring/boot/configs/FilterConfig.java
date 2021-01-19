@@ -39,16 +39,6 @@ public class FilterConfig {
         return registration;
     }
 
-    @Bean
-    public FilterRegistrationBean registerFilter2() {
-        FilterRegistrationBean registration = new FilterRegistrationBean();
-        registration.setFilter(new LogCostFilter2());
-        registration.addUrlPatterns("/*");
-        registration.setName("logCostFilter-2");
-        registration.setOrder(Ordered.HIGHEST_PRECEDENCE+1);
-        return registration;
-    }
-
     /**
      *
      * @param name 设置filter的名称

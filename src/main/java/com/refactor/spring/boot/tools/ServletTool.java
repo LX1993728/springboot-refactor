@@ -48,7 +48,12 @@ public class ServletTool {
             HttpServletResponse response = getResponse();
             request.getRequestDispatcher(uri).forward(request,response);
         }catch (Exception e){
-            log.error("Exception to forward {}, message:{}", uri, e.getMessage(), e);
+            if (e instanceof IllegalStateException){
+                // 如果是非法状态异常，其实是类似于警告，并不影响功能，可以忽略
+                log.error("Exception to forward {}, message:{}", new Object[]{uri, e.getMessage()});
+            }else {
+                log.error("Exception to forward {}, message:{}", new Object[]{uri, e.getMessage()}, e);
+            }
         }
     }
 
@@ -85,7 +90,12 @@ public class ServletTool {
             uri = uri.startsWith("/") ? uri : "/" + uri;
             request.getRequestDispatcher(uri).forward(request,response);
         } catch (Exception e) {
-            log.error("Exception to forward {}, message:{}", uri, e.getMessage(), e);
+            if (e instanceof IllegalStateException){
+                // 如果是非法状态异常，其实是类似于警告，并不影响功能，可以忽略
+                log.error("Exception to forward {}, message:{}", new Object[]{uri, e.getMessage()});
+            }else {
+                log.error("Exception to forward {}, message:{}", new Object[]{uri, e.getMessage()}, e);
+            }
         }
     }
 

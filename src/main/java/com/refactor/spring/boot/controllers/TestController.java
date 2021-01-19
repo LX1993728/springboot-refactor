@@ -134,25 +134,6 @@ public class TestController {
         return resultMap;
     }
 
-    // 测试返回xml类型数据
-    @GetMapping(value = "/xml", produces = MediaType.APPLICATION_XML_VALUE)
-    @ResponseBody
-    public Object getXmlData(){
-        Map<String,Object>  resultMap = new HashMap<>();
-        resultMap.put("name", "张三");
-        resultMap.put("age", 20);
-        return  resultMap;
-    }
-
-    @GetMapping(value = "/xml2")
-    @ResponseBody
-    public Object getXmlData2(){
-        Map<String,Object>  resultMap = new HashMap<>();
-        resultMap.put("name", "张三");
-        resultMap.put("age", 20);
-        return  resultMap;
-    }
-
     // 测试兼容旧的struts接口， 直接返回字符串
     @GetMapping(value = "/str")
     @ResponseBody
