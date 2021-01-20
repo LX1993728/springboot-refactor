@@ -8,7 +8,7 @@ import org.springframework.web.bind.support.WebBindingInitializer;
 /**
  * @author P1n93r
  * 对参数绑定进行扩展
- * 为参数去除空格
+ * 为请求参数的值去除空格
  */
 @Component
 public class CustomWebBindingInitializer implements WebBindingInitializer {

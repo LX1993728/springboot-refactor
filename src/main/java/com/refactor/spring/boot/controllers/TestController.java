@@ -3,6 +3,7 @@ package com.refactor.spring.boot.controllers;
 import com.alibaba.fastjson.JSON;
 import com.refactor.spring.boot.tasks.service.ServiceForController;
 import com.refactor.spring.boot.tools.ServletTool;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +22,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping(path = "/")
 public class TestController {
@@ -226,5 +229,23 @@ public class TestController {
     public Object testJob(@RequestParam(required = false,defaultValue = "1") Long userId){
         serviceForController.executeJobForQueryUsername(userId);
         return "success";
+    }
+
+    @RequestMapping(value = "/test_trim",method = RequestMethod.GET)
+    @ResponseBody
+    public Object testTrim(@RequestParam(value = "name", required = false)String name,
+                              @RequestParam(value = "age", required = false)Integer age){
+
+        final Map<String, String[]> reqMap = ServletTool.trimReqNameMap();
+        name = ServletTool.getParamFromMap(reqMap,String.class,"name");
+        age = ServletTool.getParamFromMap(reqMap,Integer.class,"age");
+
+        if (name == null || name.isEmpty()){
+            throw new IllegalArgumentException("名称不能为空！！！");
+        }
+        Map<String,Object>  resultMap = new HashMap<>();
+        resultMap.put("name", name);
+        resultMap.put("age", age);
+        return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
     }
 }

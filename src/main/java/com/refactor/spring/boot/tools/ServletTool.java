@@ -1,6 +1,7 @@
 package com.refactor.spring.boot.tools;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -10,6 +11,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * @author liuxun
@@ -99,5 +104,62 @@ public class ServletTool {
         }
     }
 
+    /**
+     * @apiNote 为请求参数名去除空格
+     */
+    public static Map<String, String[]> trimReqNameMap(){
+        final HttpServletRequest request = getRequest();
+        final Map<String, String[]> trimMap = new HashMap<>();
+        final Map<String, String[]> reqMap = request.getParameterMap();
+        for (String key : reqMap.keySet()) {
+            String[] value = reqMap.get(key);
+            trimMap.put(key.trim(), value);
+        }
+
+        return trimMap;
+    }
+
+    /**
+     * 注意：目前只处理简单类型 Long String Integer Boolean Double Float
+     * @param map 已经去空格转化后的请求Map
+     * @param c  要获取请求参数的类型
+     * @param paramName 要获取请求参数的名称
+     * @param <T> 返回的请求参数
+     * @return
+     */
+    public static <T> T getParamFromMap(Map<String, String[]> map,Class<T> c,String paramName ){
+        if (map == null || map.isEmpty() || StringUtils.isEmpty(paramName) || !map.containsKey(paramName)){
+            return null;
+        }
+
+        final String[] values = map.get(paramName);
+        if (values == null || values.length == 0){
+            return null;
+        }
+
+        String value = values[0];
+
+        return getVal(value, c);
+    }
+
+    public static <T> T getVal(String val, Class<T> type) {
+        if (type.isAssignableFrom(String.class)){
+            return (T) val.trim();
+        }
+        // 把val转换成type类型返回 比如说getVal("123",Integer.class) 返回一个123
+        T value = null;
+        String className = type.getSimpleName();
+        if (type == Integer.class) {
+            className = "Int";
+        }
+        String convertMethodName = "parse" + className;
+        try {
+            Method m = type.getMethod(convertMethodName, String.class);
+            value = (T) m.invoke(null, val);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return value;
+    }
 
 }
