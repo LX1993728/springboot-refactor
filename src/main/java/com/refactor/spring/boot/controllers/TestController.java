@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.refactor.spring.boot.tasks.service.ServiceForController;
 import com.refactor.spring.boot.tools.ServletTool;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONNull;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -248,5 +250,35 @@ public class TestController {
         resultMap.put("name", name);
         resultMap.put("age", age);
         return new ResponseEntity<>(resultMap, HttpStatus.BAD_REQUEST);
+    }
+
+    @RequestMapping(value = "test_net", method = RequestMethod.GET)
+    @ResponseBody
+    public Object testNetSfNull(){
+//        String content = "{\"status\":0,\"msg\":null,\"data\":null,\"total\":null}";
+        String content = "{\"status\":0,\"msg\":null,\"data\":{\"id\":null,\"cyjId\":12,\"gameId\":10000,\"gameName\":\"新天龙八部\",\"stamp\":null,\"liveDisplay\":true},\"total\":null}";
+        int gameId = 1;
+        try {
+            log.info( "content" + content);
+            JSONObject job = JSONObject.fromString(content);
+            int ret = Integer.valueOf(job.get("status").toString());
+            if (ret == 0) {
+                /*
+                会报错 net.sf.json.JSONException: JSONObject["data"] is not a JSONObject.
+               // JSONObject jo = job.getJSONObject("data");
+                 */
+                if (job.has("data") && !(job.get("data") instanceof JSONNull)){
+
+                    JSONObject jo = job.getJSONObject("data");
+
+                    if(jo != null) {
+                        gameId = Integer.valueOf(jo.get("gameId").toString());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            log.error("http getGameId error: ", e);
+        }
+        return gameId;
     }
 }
