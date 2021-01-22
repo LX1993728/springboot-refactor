@@ -33,6 +33,7 @@ public class TestController {
     // 测试访问jsp
     @RequestMapping(value="/test", method = RequestMethod.GET)
     public String test(){
+        log.info("-------/test");
         return "/WEB-INF/jsp/view/test";
     }
 
@@ -234,11 +235,11 @@ public class TestController {
     @RequestMapping(value = "/test_trim",method = RequestMethod.GET)
     @ResponseBody
     public Object testTrim(@RequestParam(value = "name", required = false)String name,
-                              @RequestParam(value = "age", required = false)Integer age){
+                              @RequestParam(value = "age", required = false)Long age){
 
         final Map<String, String[]> reqMap = ServletTool.trimReqNameMap();
         name = ServletTool.getParamFromMap(reqMap,String.class,"name");
-        age = ServletTool.getParamFromMap(reqMap,Integer.class,"age");
+        age = ServletTool.getParamFromMap(reqMap,Long.class,"age");
 
         if (name == null || name.isEmpty()){
             throw new IllegalArgumentException("名称不能为空！！！");

@@ -13,6 +13,7 @@
 
     <!--  包含其他的日志配置文件  -->
     <include resource="logback-error.xml"/>
+    <include resource="logback-service.xml"/>
 
     <!--0. 日志格式和颜色渲染 -->
     <!-- 彩色日志依赖的渲染类 -->
@@ -142,6 +143,8 @@
         不能设置为INHERITED或者同义词NULL。默认是DEBUG
         可以包含零个或多个元素，标识这个appender将会添加到这个logger。
     -->
+
+
 
     <!-- 4. 最终的策略 -->
     <!-- 4.1 开发环境:打印控制台-->
