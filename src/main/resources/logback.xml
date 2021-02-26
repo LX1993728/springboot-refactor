@@ -147,6 +147,11 @@
 
 
     <!-- 4. 最终的策略 -->
+    <!--  默认  -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+    </root>
+
     <!-- 4.1 开发环境:打印控制台-->
     <springProfile name="dev">
         <logger name="com.refactor.spring.boot" level="info"/>

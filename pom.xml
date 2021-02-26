@@ -20,6 +20,30 @@
         <javamelody.version>1.85.0</javamelody.version>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>tl_trunk</id>
+            <properties>
+                <package.environment>tl_trunk</package.environment>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>tl_lm</id>
+            <properties>
+                <package.environment>tl_lm</package.environment>
+            </properties>
+        </profile>
+        <profile>
+            <id>tl_global</id>
+            <properties>
+                <package.environment>tl_global</package.environment>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -193,7 +217,17 @@
                 <includes>
                     <include>**/**</include>
                 </includes>
-                <filtering>false</filtering>
+                <filtering>true</filtering>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources/${package.environment}</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>tl_lm/*</exclude>
+                    <exclude>tl_global/*</exclude>
+                    <exclude>tl_trunk/*</exclude>
+                </excludes>
             </resource>
         </resources>
 
