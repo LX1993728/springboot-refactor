@@ -25,7 +25,7 @@
         </filter>
     </appender>
     <!--  additivity必须设置为false，否则不光新的日志文件会存储指定包的日志，原业务日志（root）文件也会存储.不继承root。  -->
-    <logger name="com.refactor.spring.boot.controllers" level="INFO" additivity="false">
+    <logger name="com.refactor.spring.boot.controllers" level="INFO" additivity="true">
         <appender-ref ref="SERVICE_FILE" />
     </logger>
 </included>

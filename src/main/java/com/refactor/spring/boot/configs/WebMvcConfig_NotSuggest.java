@@ -13,6 +13,7 @@ import java.util.List;
  * 不建议使用继承WebMvcConfigurationSupport的方式，会关闭自动配置(挖坑)，建议配置多个WebMvcConfigurer
  */
 
+@Deprecated
 //@Configuration
 //@ImportResource({"classpath*:applicationContext*.xml"})
 public class WebMvcConfig_NotSuggest extends WebMvcConfigurationSupport {

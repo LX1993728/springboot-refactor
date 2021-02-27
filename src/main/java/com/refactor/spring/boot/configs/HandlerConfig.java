@@ -1,6 +1,7 @@
 package com.refactor.spring.boot.configs;
 
 import com.refactor.spring.boot.configs.handlers.JsonToPlainHandler;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -13,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.LinkedList;
 import java.util.List;
 
+@Slf4j
 @Configuration
 public class HandlerConfig implements WebMvcConfigurer{
     @Autowired
@@ -26,6 +28,12 @@ public class HandlerConfig implements WebMvcConfigurer{
 
     @PostConstruct
     public void init() {
+        try {
+            Thread.sleep(5000);
+            log.info("load handlers ......");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         final List<HandlerMethodReturnValueHandler> newHandlers = new LinkedList<>();
         final List<HandlerMethodReturnValueHandler> originalHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();
         if (null != originalHandlers) {
