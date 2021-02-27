@@ -27,6 +27,8 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
 
 
+
+    
     /** 此处如果返回false , 则不执行当前Advice的业务 */
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
