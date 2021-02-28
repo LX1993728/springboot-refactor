@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Locale;
 
 /**
  * @title 全局统一响应处理
@@ -26,9 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice("com.refactor.spring.boot.controllers")
 public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
 
-
-
-    
     /** 此处如果返回false , 则不执行当前Advice的业务 */
     @Override
     public boolean supports(MethodParameter returnType, Class converterType) {
@@ -48,6 +48,7 @@ public class GlobalResponseBodyAdvice implements ResponseBodyAdvice {
                     JSON.toJSONString(body, SerializerFeature.UseSingleQuotes)
             );
         }
+
         return body;
     }
 }

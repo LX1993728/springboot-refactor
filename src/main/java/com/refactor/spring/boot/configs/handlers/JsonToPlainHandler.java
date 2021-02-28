@@ -1,6 +1,8 @@
 package com.refactor.spring.boot.configs.handlers;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.refactor.spring.boot.tools.ServletTool;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -30,6 +32,19 @@ public class JsonToPlainHandler implements HandlerMethodReturnValueHandler {
             response.setLocale(new Locale("zh","CN"));
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(JSON.toJSONString(returnValue));
+        }
+        printBody(returnValue);
+    }
+
+    private void printBody(Object body){
+        // 响应值转JSON串输出到日志系统
+        if (log.isInfoEnabled()) {
+            log.info("\nURI={}\tstatus={}\nrequestParam={}\nresponseBody={}\n",
+                    ServletTool.getRequest().getRequestURI(),
+                    ServletTool.getResponse().getStatus(),
+                    JSON.toJSONString(ServletTool.getRequest().getParameterMap(), SerializerFeature.UseSingleQuotes),
+                    JSON.toJSONString(body, SerializerFeature.UseSingleQuotes)
+            );
         }
     }
 }

@@ -49,3 +49,6 @@
 
 ## SpringBoot 自定义Bean注入 注意事项
 springboot由于和spring加载机制的不同，传统的继承 `SpringBootBeanAutowiringSupport` 实现自定义对象成员变量的注入，在springboot中已经不行了，需要自定义。
+
+## HandlerMethodReturnValueHandler 与 ResponseBodyAdvice 冲突
+① 需要改变 将ResponseBodyAdvice业务代码 放在HandlerMethodReturnValueHandler中处理
