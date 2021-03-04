@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @Controller
 public class TestController2 {
@@ -32,7 +34,10 @@ public class TestController2 {
 
     @GetMapping("/testHttpLog")
     @ResponseBody
-    public Object getHttpLog(){
-      return   new JSONResult("00000","成功");
+    public Object getHttpLog(HttpServletRequest request){
+        // 测试logbook的下游代码在格式是body的情况下是否可以调用getParameter
+        final String aaa = request.getParameter("aaa");
+        log.info(aaa);
+        return   new JSONResult("00000","成功");
     }
 }

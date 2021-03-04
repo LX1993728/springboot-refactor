@@ -32,7 +32,8 @@ public class JsonToPlainHandler implements HandlerMethodReturnValueHandler {
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
         // .setRequestHandled(true)表示此函数可以处理请求，不必交给别的代码处理
         mavContainer.setRequestHandled(true);
-        if (profiles.equals("tl_trunk")){
+        // 自定义的HTTP日志打印方式
+        if (profiles.equals("tl_lm")){
             printBodyInfo(returnValue);
         }
         if (returnValue != null && !(returnValue instanceof String)){

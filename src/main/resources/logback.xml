@@ -15,6 +15,7 @@
     <include resource="logback-error.xml"/>
     <include resource="logback-service.xml"/>
     <include resource="logback-http.xml"/>
+    <include resource="logback-httplog.xml"/>
 
     <!--0. 日志格式和颜色渲染 -->
     <!-- 彩色日志依赖的渲染类 -->
