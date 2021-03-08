@@ -30,7 +30,7 @@
  
  # 使用Filter替代Struts拦截器栈方案 (丢弃spring拦截器方案)
  因为在spring的Interceptor中无法对控制器方法的执行进行try-catch操作，从而无法兼容旧struts拦截器中拦截捕获以及finally进行处理，比如以下代码:<br/>
-```java
+```
    try {
         return arg0.invoke();
     } catch (Exception e) {
