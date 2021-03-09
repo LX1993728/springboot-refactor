@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -39,5 +39,14 @@ public class TestController2 {
         final String aaa = request.getParameter("aaa");
         log.info(aaa);
         return   new JSONResult("00000","成功");
+    }
+
+    @RequestMapping("/testParamName")
+    @ResponseBody
+    public Object testParamName(@RequestParam(name = "testName", required = false)String name){
+        log.info("/testParamName—> name={}", name);
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("testName", name);
+        return resultMap;
     }
 }
