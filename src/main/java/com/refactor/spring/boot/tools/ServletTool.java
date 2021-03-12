@@ -1,6 +1,8 @@
 package com.refactor.spring.boot.tools;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -160,6 +163,19 @@ public class ServletTool {
             e.printStackTrace();
         }
         return value;
+    }
+
+    /**
+     *  一版在servlet中使用
+     * @param response 原生的response对象
+     * @param o  写回前端的对象
+     * @throws IOException
+     */
+    public static void writeJsonStrForObject(HttpServletResponse response, Object o) throws IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        response.setLocale(new Locale("zh","CN"));
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(JSON.toJSONString(o));
     }
 
 }
