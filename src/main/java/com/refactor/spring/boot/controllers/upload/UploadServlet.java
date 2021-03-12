@@ -1,4 +1,4 @@
-package com.refactor.spring.boot.controllers;
+package com.refactor.spring.boot.controllers.upload;
 
 import com.refactor.spring.boot.tools.ServletTool;
 import org.apache.commons.fileupload.FileItem;

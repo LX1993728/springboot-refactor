@@ -1,4 +1,4 @@
-package com.refactor.spring.boot.controllers;
+package com.refactor.spring.boot.controllers.test;
 
 import com.alibaba.fastjson.JSON;
 import com.refactor.spring.boot.tasks.service.ServiceForController;

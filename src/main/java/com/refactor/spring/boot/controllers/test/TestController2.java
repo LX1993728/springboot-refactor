@@ -1,4 +1,4 @@
-package com.refactor.spring.boot.controllers;
+package com.refactor.spring.boot.controllers.test;
 
 import com.refactor.spring.boot.domains.JSONResult;
 import lombok.extern.slf4j.Slf4j;
