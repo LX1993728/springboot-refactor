@@ -1,6 +1,6 @@
 package com.refactor.spring.boot.controllers.test;
 
-import com.refactor.spring.boot.domains.JSONResult;
+import com.refactor.spring.boot.domains.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +38,7 @@ public class TestController2 {
         // 测试logbook的下游代码在格式是body的情况下是否可以调用getParameter
         final String aaa = request.getParameter("aaa");
         log.info(aaa);
-        return   new JSONResult("00000","成功");
+        return   new JsonResult("00000","成功");
     }
 
     @RequestMapping("/testParamName")

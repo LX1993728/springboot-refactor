@@ -28,9 +28,14 @@ public class DownloadController {
                 "attachment;filename=sample.zip");
 
         StreamingResponseBody stream = out -> {
-
+            /*
             final String home = System.getProperty("user.home");
             final File directory = new File(home + File.separator + "Documents" + File.separator + "sample");
+             */
+            File directory = new File("log");
+            if (!directory.exists()){
+                directory.mkdirs();
+            }
             final ZipOutputStream zipOut = new ZipOutputStream(response.getOutputStream());
 
             if(directory.exists() && directory.isDirectory()) {

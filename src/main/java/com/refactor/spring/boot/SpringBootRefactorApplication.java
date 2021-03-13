@@ -1,14 +1,12 @@
 package com.refactor.spring.boot;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ServletComponentScan // 注册servlet方式一：通过扫描@WebServlet注解实现
-@SpringBootApplication(exclude = {MultipartAutoConfiguration.class})
+@SpringBootApplication
 public class SpringBootRefactorApplication {
 
     /**
